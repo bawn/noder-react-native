@@ -1,0 +1,1 @@
+../../../HTMLKit/Sources/include/HTMLDocument+Private.h

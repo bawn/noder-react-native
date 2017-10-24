@@ -1,0 +1,9 @@
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/HTMLKit" "${PODS_ROOT}/Headers/Public/PINCache" "${PODS_ROOT}/Headers/Public/PINOperation" "${PODS_ROOT}/Headers/Public/PINRemoteImage" "${PODS_ROOT}/Headers/Public/Reveal-SDK" "${PODS_ROOT}/Headers/Public/Texture" "${PODS_ROOT}/Headers/Public/libextobjc"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/HTMLKit" "$PODS_CONFIGURATION_BUILD_DIR/PINCache" "$PODS_CONFIGURATION_BUILD_DIR/PINOperation" "$PODS_CONFIGURATION_BUILD_DIR/PINRemoteImage" "$PODS_CONFIGURATION_BUILD_DIR/Texture" "$PODS_CONFIGURATION_BUILD_DIR/libextobjc"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/HTMLKit" -isystem "${PODS_ROOT}/Headers/Public/PINCache" -isystem "${PODS_ROOT}/Headers/Public/PINOperation" -isystem "${PODS_ROOT}/Headers/Public/PINRemoteImage" -isystem "${PODS_ROOT}/Headers/Public/Reveal-SDK" -isystem "${PODS_ROOT}/Headers/Public/Texture" -isystem "${PODS_ROOT}/Headers/Public/libextobjc"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"HTMLKit" -l"PINCache" -l"PINOperation" -l"PINRemoteImage" -l"Texture" -l"c++" -l"libextobjc" -framework "Accelerate" -framework "Foundation" -framework "ImageIO" -framework "UIKit" -weak_framework "AssetsLibrary" -weak_framework "MapKit" -weak_framework "Photos" -weak_framework "UIKit"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}/Pods

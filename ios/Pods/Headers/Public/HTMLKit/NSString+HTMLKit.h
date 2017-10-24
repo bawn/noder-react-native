@@ -1,0 +1,1 @@
+../../../HTMLKit/Sources/include/NSString+HTMLKit.h

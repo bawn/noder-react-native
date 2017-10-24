@@ -1,0 +1,10 @@
+source 'https://github.com/CocoaPods/Specs.git'
+inhibit_all_warnings!
+platform:ios,'10.0'
+
+target 'Noder' do
+    pod 'Reveal-SDK', :configurations => ['Debug']
+    pod 'HTMLKit'          #https://github.com/iabudiab/HTMLKit
+    pod 'Texture'          #https://github.com/TextureGroup/Texture
+    pod 'libextobjc'
+end
