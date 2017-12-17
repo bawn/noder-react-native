@@ -154,9 +154,7 @@ static CGFloat const kTopSpaceValue = 4.0f;
   NSString *urlString = URL.absoluteString;
   if ([urlString hasPrefix:@"/user/"]) {
     if (self.clickUserLinkBlock) {
-      self.clickUserLinkBlock(@{
-                                @"loginname" : [URL lastPathComponent],
-                                });
+      self.clickUserLinkBlock(@{@"loginname" : [URL lastPathComponent],});
     }
   }
   else{

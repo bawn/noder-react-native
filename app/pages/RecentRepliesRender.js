@@ -14,8 +14,6 @@ import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
 
-const WindowWidth = Dimensions.get('window').width
-
 export default class RecentRepliesRender extends Component {
   constructor(props) {
     super(props);
@@ -118,7 +116,7 @@ const styles = {
     fontSize: 14,
     fontWeight: '500',
     color: Colors.blackColor,
-    width: WindowWidth - 50 - 16 - 16 - 16
+    flexShrink: 1
   },
   create: {
     fontSize: 10,

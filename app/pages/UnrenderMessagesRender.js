@@ -17,8 +17,6 @@ import Store from 'react-native-simple-store'
 import HTMLView from 'react-native-htmlview'
 import Markdown from 'react-native-simple-markdown'
 
-const ScreenSize = Dimensions.get('window')
-
 export default class UnrenderMessagesRender extends Component {
   constructor(props) {
     super(props);
@@ -53,8 +51,7 @@ export default class UnrenderMessagesRender extends Component {
   _emptyComponent() {
     return (
       <View style={[styles.emptyView, {height: this.state.viewHeight}]}>
-        <Image source={require('../assets/images/messageEmpty.png')}/>
-        <Text style={styles.emptyText}>{'暂时还没有消息'}</Text>
+        <Text style={styles.emptyText}>{'暂无消息'}</Text>
       </View>
     )
   }
@@ -221,7 +218,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    width: ScreenSize.width - 50 - 16 - 16 - 16
+    flexShrink: 1
   },
   title: {
     fontSize: 12,
@@ -255,11 +252,10 @@ const styles = {
     flex:1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
-    height: ScreenSize.height - 64
+    backgroundColor: 'white'
   },
   emptyText: {
-    fontSize: 14,
-    color: Colors.blackColor
+    fontSize: 17,
+    color: Colors.lightGrayColor
   }
 }

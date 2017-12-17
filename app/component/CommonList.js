@@ -204,7 +204,8 @@ const styles = {
     fontSize: 14,
     fontWeight: '500',
     color: Colors.blackColor,
-    width: WindowWidth - 60 - 80
+    flexShrink: 1,
+    marginRight: 8
   },
   create: {
     fontSize: 10,

@@ -690,33 +690,33 @@
 		DF39B7451F9F102200E0CF7A /* HTMLNode */ = {
 			isa = PBXGroup;
 			children = (
-				DF39B7461F9F102200E0CF7A /* LCLiTextNode.m */,
-				DF39B7471F9F102200E0CF7A /* LCCodeDisplayNode.m */,
-				DF39B7481F9F102200E0CF7A /* LCQuoteDisplayNode.m */,
-				DF39B7491F9F102200E0CF7A /* NSString+LCAdditional.h */,
-				DF39B74A1F9F102200E0CF7A /* LCLIDisplayNode.h */,
-				DF39B74B1F9F102200E0CF7A /* LCPTextNode.h */,
-				DF39B74C1F9F102200E0CF7A /* LCHTextNode.h */,
-				DF39B74D1F9F102200E0CF7A /* LCPDisplayNode.h */,
-				DF39B74E1F9F102200E0CF7A /* NSMutableAttributedString+LCLineSpace.m */,
-				DF39B74F1F9F102200E0CF7A /* LCULDisplayNode.h */,
-				DF39B7501F9F102200E0CF7A /* LCHtmlNode.h */,
-				DF39B7511F9F102200E0CF7A /* LCCodeTextNode.m */,
-				DF39B7521F9F102200E0CF7A /* LCNetworkImageNode.h */,
-				DF39B7531F9F102200E0CF7A /* UIColor+LCColor.h */,
-				DF39B7541F9F102200E0CF7A /* LCQuoteDisplayNode.h */,
-				DF39B7551F9F102200E0CF7A /* LCCodeDisplayNode.h */,
 				DF39B7561F9F102200E0CF7A /* LCLiTextNode.h */,
+				DF39B7461F9F102200E0CF7A /* LCLiTextNode.m */,
+				DF39B7541F9F102200E0CF7A /* LCQuoteDisplayNode.h */,
+				DF39B7481F9F102200E0CF7A /* LCQuoteDisplayNode.m */,
+				DF39B75F1F9F102200E0CF7A /* LCCodeTextNode.h */,
+				DF39B7511F9F102200E0CF7A /* LCCodeTextNode.m */,
+				DF39B7531F9F102200E0CF7A /* UIColor+LCColor.h */,
+				DF39B75D1F9F102200E0CF7A /* UIColor+LCColor.m */,
+				DF39B7551F9F102200E0CF7A /* LCCodeDisplayNode.h */,
+				DF39B7471F9F102200E0CF7A /* LCCodeDisplayNode.m */,
+				DF39B74A1F9F102200E0CF7A /* LCLIDisplayNode.h */,
 				DF39B7571F9F102200E0CF7A /* LCLIDisplayNode.m */,
+				DF39B7491F9F102200E0CF7A /* NSString+LCAdditional.h */,
 				DF39B7581F9F102200E0CF7A /* NSString+LCAdditional.m */,
 				DF39B7591F9F102200E0CF7A /* NSMutableAttributedString+LCLineSpace.h */,
+				DF39B74E1F9F102200E0CF7A /* NSMutableAttributedString+LCLineSpace.m */,
+				DF39B74D1F9F102200E0CF7A /* LCPDisplayNode.h */,
 				DF39B75A1F9F102200E0CF7A /* LCPDisplayNode.m */,
+				DF39B74C1F9F102200E0CF7A /* LCHTextNode.h */,
 				DF39B75B1F9F102200E0CF7A /* LCHTextNode.m */,
+				DF39B74B1F9F102200E0CF7A /* LCPTextNode.h */,
 				DF39B75C1F9F102200E0CF7A /* LCPTextNode.m */,
-				DF39B75D1F9F102200E0CF7A /* UIColor+LCColor.m */,
+				DF39B7521F9F102200E0CF7A /* LCNetworkImageNode.h */,
 				DF39B75E1F9F102200E0CF7A /* LCNetworkImageNode.m */,
-				DF39B75F1F9F102200E0CF7A /* LCCodeTextNode.h */,
+				DF39B7501F9F102200E0CF7A /* LCHtmlNode.h */,
 				DF39B7601F9F102200E0CF7A /* LCHtmlNode.m */,
+				DF39B74F1F9F102200E0CF7A /* LCULDisplayNode.h */,
 				DF39B7611F9F102200E0CF7A /* LCULDisplayNode.m */,
 			);
 			name = HTMLNode;
@@ -812,7 +812,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = U2HU62KF5U;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = U2HU62KF5U;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1345,6 +1349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = U2HU62KF5U;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1376,6 +1381,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = U2HU62KF5U;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1405,6 +1411,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = U2HU62KF5U;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1428,6 +1435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U2HU62KF5U;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",

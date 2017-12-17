@@ -42,10 +42,19 @@ export default class DetailRender extends Component {
       }
       else {
         return(
-          <View/>
+          this._emptyComponent()
         )
       }
   }
+
+  _emptyComponent() {
+    return (
+      <View style={[styles.emptyView, {height: this.state.viewHeight}]}>
+        <Text style={styles.emptyText}>{'暂无消息'}</Text>
+      </View>
+    )
+  }
+
   _onLinkPress(url){
     if (url.startsWith('/user/')) {
       let loginname = url.substr(url.lastIndexOf('/') + 1);
@@ -175,5 +184,15 @@ const styles = {
   relativeText: {
     fontSize: 10,
     color: Colors.grayColor
-  }
+  },
+  emptyText: {
+    fontSize: 17,
+    color: Colors.lightGrayColor
+  },
+  emptyView: {
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white'
+  },
 }

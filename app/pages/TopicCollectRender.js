@@ -13,8 +13,6 @@ import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
 
-const WindowWidth = Dimensions.get('window').width
-
 export default class TopicCollectRender extends Component {
   static navigatorStyle = {
     navBarBackgroundColor: 'white',
@@ -169,7 +167,7 @@ const styles = {
     fontSize: 14,
     fontWeight: '500',
     color: Colors.blackColor,
-    width: WindowWidth - 60 - 80
+    flexShrink: 1
   },
   create: {
     fontSize: 10,

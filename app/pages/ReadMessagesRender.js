@@ -17,8 +17,6 @@ import Store from 'react-native-simple-store'
 import HTMLView from 'react-native-htmlview'
 import Markdown from 'react-native-simple-markdown'
 
-const WindowWidth = Dimensions.get('window').width
-
 export default class ReadMessagesRender extends Component {
   constructor(props) {
     super(props);
@@ -38,12 +36,12 @@ export default class ReadMessagesRender extends Component {
 
   _emptyComponent() {
     return (
-      <View style={[styles.emptyView, {height: this.state.viewHeight}]}>
-        <Image source={require('../assets/images/messageEmpty.png')}/>
-        <Text style={styles.emptyText}>{'暂时还没有消息'}</Text>
+      <View style={styles.emptyView}>
+        <Text style={styles.emptyText}>{'暂无消息'}</Text>
       </View>
     )
   }
+
 
   _updateData(token) {
     fetch(Api.messages + "?accesstoken=" + token + "&mdrender=false")
@@ -66,14 +64,13 @@ export default class ReadMessagesRender extends Component {
             renderItem={({item, index}) => this.renderRow(item, index)}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={() => this.renderSeparator()}
-            ListEmptyComponent={() => this._emptyComponent()}
             style={styles.listView}
           />
         )
       }
       else {
         return(
-          <View/>
+          this._emptyComponent()
         )
       }
   }
@@ -213,7 +210,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    width: WindowWidth - 50 - 16 - 16 - 16
+    flexShrink: 1
   },
   title: {
     fontSize: 12,
@@ -250,7 +247,7 @@ const styles = {
     backgroundColor: 'white'
   },
   emptyText: {
-    fontSize: 14,
-    color: Colors.blackColor
+    fontSize: 17,
+    color: Colors.lightGrayColor
   }
 }
