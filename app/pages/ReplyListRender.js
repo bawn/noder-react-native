@@ -15,43 +15,53 @@ import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
 import HTMLView from 'react-native-htmlview'
+import Loading from '../component/LoadingRender'
+import Empty from '../component/EmptyRender'
 
 export default class DetailRender extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: [],
+      viewHeight: 0
   	}
   }
   componentDidMount(){
     this.setState({
-      dataSource: this.props.data,
+      dataSource: this.props.data
     });
   }
+
+  _onLayout(event){
+    this.setState({
+      viewHeight: event.nativeEvent.layout.height
+    })
+  }
+
   render(){
-      if (this.state.dataSource.length) {
-        return(
-          <FlatList
-            initialListSize={10}
-            data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderRow(item, index)}
-            keyExtractor={item => item.id}
-            style={styles.listView}
-          />
-        )
-      }
-      else {
-        return(
-          this._emptyComponent()
-        )
-      }
+    return(
+      <View
+        style={styles.container}
+        onLayout={(event) => this._onLayout(event)}
+      >
+        <FlatList
+          initialListSize={10}
+          data={this.state.dataSource}
+          renderItem={({item, index}) => this.renderRow(item, index)}
+          keyExtractor={item => item.id}
+          ListEmptyComponent={() => this._emptyComponent()}
+          style={styles.listView}
+        />
+      </View>
+    )
   }
 
   _emptyComponent() {
     return (
-      <View style={[styles.emptyView, {height: this.state.viewHeight}]}>
-        <Text style={styles.emptyText}>{'暂无消息'}</Text>
-      </View>
+      <Empty
+        height={this.state.viewHeight}
+        >
+      </Empty>
     )
   }
 
@@ -79,6 +89,12 @@ export default class DetailRender extends Component {
     })
   }
 
+  renderSeparator(){
+    return(
+      <View style={styles.separator}/>
+    )
+  }
+
   renderRow(item, index){
     var row = index + 1;
     return(
@@ -99,7 +115,6 @@ export default class DetailRender extends Component {
           />
           <Text style={styles.relativeText}>{this._relative(item)}</Text>
         </View>
-        <View style={styles.separator}></View>
       </View>
     )
   }
@@ -127,6 +142,9 @@ const htmlStyles = {
 };
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: Colors.placeholderColor
@@ -134,10 +152,6 @@ const styles = {
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: Colors.separatorColor,
-    position: 'absolute',
-    left: 16,
-    right: 16,
-    bottom: 0,
   },
   htmlView: {
     flex: 1,
@@ -184,15 +198,5 @@ const styles = {
   relativeText: {
     fontSize: 10,
     color: Colors.grayColor
-  },
-  emptyText: {
-    fontSize: 17,
-    color: Colors.lightGrayColor
-  },
-  emptyView: {
-    flex:1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
+  }
 }

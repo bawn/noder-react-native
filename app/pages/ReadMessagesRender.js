@@ -6,13 +6,14 @@ import {
   FlatList,
   StyleSheet,
   TouchableHighlight,
-  TouchableOpacity,
-  Dimensions
+  TouchableOpacity
 } from 'react-native';
 
 import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
+import Loading from '../component/LoadingRender'
+import Empty from '../component/EmptyRender'
 import Store from 'react-native-simple-store'
 import HTMLView from 'react-native-htmlview'
 import Markdown from 'react-native-simple-markdown'
@@ -22,26 +23,36 @@ export default class ReadMessagesRender extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      viewHeight: 0,
+      visible: true
   	}
   }
   static navigatorStyle = {
     navBarBackgroundColor: 'white',
-    tabBarHidden: true,
+    tabBarHidden: true
   }
+
   componentDidMount(){
     Store.get('user').then((res) =>
         {this._updateData(res.accessToken)}
     )
   }
 
-  _emptyComponent() {
-    return (
-      <View style={styles.emptyView}>
-        <Text style={styles.emptyText}>{'暂无消息'}</Text>
-      </View>
-    )
+  _onLayout(event){
+    this.setState({
+      viewHeight: event.nativeEvent.layout.height
+    })
   }
 
+  _emptyComponent() {
+    return (
+      <Empty
+        hidden={this.state.visible}
+        height={this.state.viewHeight}
+        >
+      </Empty>
+    )
+  }
 
   _updateData(token) {
     fetch(Api.messages + "?accesstoken=" + token + "&mdrender=false")
@@ -49,6 +60,7 @@ export default class ReadMessagesRender extends Component {
       .then((responseData) => {
         if (responseData) {
           this.setState({
+            visible: false,
             dataSource: responseData.data.has_read_messages,
           });
         }
@@ -57,22 +69,21 @@ export default class ReadMessagesRender extends Component {
   }
 
   render(){
-      if (this.state.dataSource.length) {
-        return(
-          <FlatList
-            data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderRow(item, index)}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={() => this.renderSeparator()}
-            style={styles.listView}
-          />
-        )
-      }
-      else {
-        return(
-          this._emptyComponent()
-        )
-      }
+    return(
+      <View style={styles.container}
+        onLayout={(event) => this._onLayout(event)}
+        >
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({item, index}) => this.renderRow(item, index)}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={() => this.renderSeparator()}
+          ListEmptyComponent={() => this._emptyComponent()}
+          style={styles.listView}
+        />
+        <Loading visible={this.state.visible}/>
+      </View>
+    )
   }
   _rowAction(item){
     this.props.navigator.push({
@@ -90,17 +101,16 @@ export default class ReadMessagesRender extends Component {
           <Image source={{uri: item.author.avatar_url}} style={styles.avatar}/>
           <View style={styles.textContent}>
             <View style={styles.nicknameView}>
-              <Text style={styles.nickname} numberOfLines={1}>{item.author.loginname}</Text>
+              <Text style={styles.nickname} numberOfLines={1}>
+                {item.author.loginname}
+              </Text>
               <Text style={styles.create}>{this._relative(item)}</Text>
             </View>
-            <Text style={styles.title} numberOfLines={1}>{item.topic.title}</Text>
-            {/* <HTMLView
-              value={item.reply.content}
-              style={styles.htmlView}
-              stylesheet={htmlStyles}
-              onLinkPress={(url) => this._onLinkPress(url)}
-            /> */}
+            <Text style={styles.title} numberOfLines={1}>
+              {item.topic.title}
+            </Text>
             <View style={styles.htmlView}>
+              {/* Markdown 会导致一个 waring*/}
               <Markdown
                 styles={markdownStyles}
                 >
@@ -171,6 +181,9 @@ const markdownStyles = {
 
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: Colors.placeholderColor
@@ -240,14 +253,13 @@ const styles = {
     fontSize: 14,
     color: Colors.blackColor,
   },
-  emptyView: {
-    flex:1,
-    alignItems: 'center',
+  centering: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
     justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  emptyText: {
-    fontSize: 17,
-    color: Colors.lightGrayColor
+    alignItems: 'center'
   }
 }

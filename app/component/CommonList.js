@@ -13,15 +13,15 @@ import Api from '../util/Api'
 import Styles from '../other/Styles'
 import * as Colors from '../other/Colors'
 import moment from 'moment'
-
-const WindowWidth = Dimensions.get('window').width
+import Loading from '../component/LoadingRender'
 
 export default class CommonList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dataSource: [],
-      page: 1
+      page: 1,
+      visible: true
   	}
   }
   _relative(item){
@@ -98,26 +98,26 @@ export default class CommonList extends Component {
 
   onEndReached(){
     if (!this.onEndReachedCalledDuringMomentum) {
-          let page = this.state.page + 1
-          let url = this.apiForTab()
-          if (url == Api.topics) {
-            url = url + '?page=' + page
-          } else {
-             url = url + '&page=' + page
-          }
-          fetch(url)
-            .then((response) => response.json())
-            .then((responseData) => {
-              if (responseData) {
-                this.onEndReachedCalledDuringMomentum = true;
-                this.setState((state) => ({
-                  dataSource: state.dataSource.concat(responseData.data),
-                  page: page
-                }));
-              }
-            })
-          .done();
+        let page = this.state.page + 1
+        let url = this.apiForTab()
+        if (url == Api.topics) {
+          url = url + '?page=' + page
+        } else {
+           url = url + '&page=' + page
         }
+        fetch(url)
+          .then((response) => response.json())
+          .then((responseData) => {
+            if (responseData) {
+              this.onEndReachedCalledDuringMomentum = true;
+              this.setState((state) => ({
+                dataSource: state.dataSource.concat(responseData.data),
+                page: page
+              }));
+            }
+          })
+        .done();
+    }
   }
 
   componentDidMount(){
@@ -127,6 +127,7 @@ export default class CommonList extends Component {
       .then((responseData) => {
         if (responseData) {
           this.setState({
+            visible: false,
             dataSource: responseData.data,
           });
         }
@@ -136,22 +137,29 @@ export default class CommonList extends Component {
   componentWillReceiveProps(nextProps) {
 
 	}
+
   render() {
     return (
-      <FlatList
-        data={this.state.dataSource}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => this.renderRow(item)}
-        ItemSeparatorComponent={this.renderSeparator.bind(this)}
-        style={styles.listView}
-        onEndReached={this.onEndReached.bind(this)}
-        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
-      />
+      <View style={styles.container}>
+        <FlatList
+          data={this.state.dataSource}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => this.renderRow(item)}
+          ItemSeparatorComponent={this.renderSeparator.bind(this)}
+          style={styles.listView}
+          onEndReached={this.onEndReached.bind(this)}
+          onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+        />
+        <Loading visible={this.state.visible}/>
+      </View>
     )
   }
 }
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: 'white'

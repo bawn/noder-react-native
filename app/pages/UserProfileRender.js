@@ -47,7 +47,7 @@ export default class UserProfileRender extends Component {
     var userInfo = this.state.userInfo;
     if (userInfo) {
       this.props.navigator.push({
-        screen: 'Noder.RecentRepliesRender',
+        screen: 'Noder.RecentTopicsRender',
         title: '最近发布',
         backButtonTitle: ' ',
         passProps: {data: userInfo.recent_topics}

@@ -16,7 +16,7 @@ export default class HtmlRender extends Component {
     content: PropTypes.string,
     onChange: PropTypes.func,
     onClickUserLink: PropTypes.func
-  };
+  }
   constructor(props) {
     super(props);
   }

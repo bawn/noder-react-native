@@ -13,14 +13,15 @@ import {
 import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
-
-const WindowWidth = Dimensions.get('window').width
+import Loading from '../component/LoadingRender'
+import Empty from '../component/EmptyRender'
 
 export default class RecentTopicsRender extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: [],
+      viewHeight: 0
   	}
   }
   static navigatorStyle = {
@@ -33,24 +34,38 @@ export default class RecentTopicsRender extends Component {
     });
   }
 
+  _emptyComponent() {
+    return (
+      <Empty
+        height={this.state.viewHeight}
+        >
+      </Empty>
+    )
+  }
+
+  _onLayout(event){
+    this.setState({
+      viewHeight: event.nativeEvent.layout.height
+    })
+  }
+
   render(){
-      if (this.state.dataSource.length) {
-        return(
-          <FlatList
-            initialListSize={10}
-            data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderRow(item, index)}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={() => this.renderSeparator()}
-            style={styles.listView}
-          />
-        )
-      }
-      else {
-        return(
-          <View/>
-        )
-      }
+    return(
+      <View
+        style={styles.container}
+        onLayout={(event) => this._onLayout(event)}
+      >
+        <FlatList
+          initialListSize={10}
+          data={this.state.dataSource}
+          renderItem={({item, index}) => this.renderRow(item, index)}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={() => this.renderSeparator()}
+          ListEmptyComponent={() => this._emptyComponent()}
+          style={styles.listView}
+        />
+      </View>
+    )
   }
   _rowAction(item){
     this.props.navigator.push({
@@ -60,8 +75,9 @@ export default class RecentTopicsRender extends Component {
       passProps: {data: item},
     })
   }
+
+
   renderRow(item, index){
-    var row = index + 1;
     return(
       <TouchableHighlight style={{flex:1}} onPress={()=>this._rowAction(item)}>
         <View style={styles.cellContent}>
@@ -87,6 +103,9 @@ export default class RecentTopicsRender extends Component {
 
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: Colors.placeholderColor
@@ -96,7 +115,7 @@ const styles = {
     height: 74,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     padding: 16,
     backgroundColor: 'white'
   },
@@ -113,13 +132,14 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: 50
+    flex: 1,
+    height: 44
   },
   title: {
     fontSize: 14,
     fontWeight: '500',
     color: Colors.blackColor,
-    width: WindowWidth - 50 - 16 - 16 - 16
+    flexShrink: 1
   },
   create: {
     fontSize: 10,

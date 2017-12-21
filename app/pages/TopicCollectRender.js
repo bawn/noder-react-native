@@ -12,6 +12,8 @@ import {
 import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
+import Loading from '../component/LoadingRender'
+import Empty from '../component/EmptyRender'
 
 export default class TopicCollectRender extends Component {
   static navigatorStyle = {
@@ -22,6 +24,8 @@ export default class TopicCollectRender extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      viewHeight: 0,
+      visible: true
   	}
   }
   componentDidMount(){
@@ -30,31 +34,46 @@ export default class TopicCollectRender extends Component {
       .then((responseData) => {
         if (responseData) {
           this.setState({
+            visible: false,
             dataSource: responseData.data,
           });
         }
       })
     .done();
   }
+  _onLayout(event){
+    this.setState({
+      viewHeight: event.nativeEvent.layout.height
+    })
+  }
+
+  _emptyComponent() {
+    return (
+      <Empty
+        hidden={this.state.visible}
+        height={this.state.viewHeight}
+        >
+      </Empty>
+    )
+  }
 
   render(){
-      if (this.state.dataSource.length) {
-        return(
-          <FlatList
-            initialListSize={10}
-            data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderRow(item, index)}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={() => this.renderSeparator()}
-            style={styles.listView}
-          />
-        )
-      }
-      else {
-        return(
-          <View/>
-        )
-      }
+    return(
+      <View style={styles.container}
+        onLayout={(event) => this._onLayout(event)}
+        >
+        <FlatList
+          initialListSize={10}
+          data={this.state.dataSource}
+          renderItem={({item, index}) => this.renderRow(item, index)}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={() => this.renderSeparator()}
+          ListEmptyComponent={() => this._emptyComponent()}
+          style={styles.listView}
+        />
+        <Loading visible={this.state.visible}/>
+      </View>
+    )
   }
   _rowAction(item){
     this.props.navigator.push({
@@ -115,6 +134,9 @@ export default class TopicCollectRender extends Component {
 
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: Colors.placeholderColor

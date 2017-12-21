@@ -6,8 +6,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableHighlight,
-  TouchableOpacity,
-  Dimensions
+  TouchableOpacity
 } from 'react-native';
 
 import * as Colors from '../other/Colors'
@@ -16,19 +15,31 @@ import moment from 'moment'
 import Store from 'react-native-simple-store'
 import HTMLView from 'react-native-htmlview'
 import Markdown from 'react-native-simple-markdown'
+import Loading from '../component/LoadingRender'
+import Empty from '../component/EmptyRender'
 
 export default class UnrenderMessagesRender extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: [],
-      viewHeight: 0
+      viewHeight: 0,
+      visible: true
   	}
   }
   static navigatorStyle = {
     navBarBackgroundColor: 'white',
     tabBarHidden: true,
+    navBarButtonFontSize: 14
   }
+
+  static navigatorButtons = {
+    rightButtons: [{
+        title: '全部已读',
+        id: 'allread'
+      }]
+  };
+
   componentDidMount(){
     Store.get('user').then((res) =>
         {this._updateData(res.accessToken)}
@@ -41,6 +52,7 @@ export default class UnrenderMessagesRender extends Component {
       .then((responseData) => {
         if (responseData) {
           this.setState({
+            visible: false,
             dataSource: responseData.data.hasnot_read_messages,
           });
         }
@@ -50,9 +62,11 @@ export default class UnrenderMessagesRender extends Component {
 
   _emptyComponent() {
     return (
-      <View style={[styles.emptyView, {height: this.state.viewHeight}]}>
-        <Text style={styles.emptyText}>{'暂无消息'}</Text>
-      </View>
+      <Empty
+        hidden={this.state.visible}
+        height={this.state.viewHeight}
+        >
+      </Empty>
     )
   }
 
@@ -76,6 +90,7 @@ export default class UnrenderMessagesRender extends Component {
           ListEmptyComponent={() => this._emptyComponent()}
           style={styles.listView}
         />
+        <Loading visible={this.state.visible}/>
       </View>
     )
 
@@ -247,15 +262,5 @@ const styles = {
   reply: {
     fontSize: 14,
     color: Colors.blackColor,
-  },
-  emptyView: {
-    flex:1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  emptyText: {
-    fontSize: 17,
-    color: Colors.lightGrayColor
   }
 }

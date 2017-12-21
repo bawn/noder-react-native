@@ -47,8 +47,7 @@ export default class MeRender extends Component {
   static navigatorButtons = {
     rightButtons: [{
         icon: require('../assets/images/iconSetting.png'),
-        id: 'setting',
-        testID: 'e2e_rule'
+        id: 'setting'
       }]
   };
 

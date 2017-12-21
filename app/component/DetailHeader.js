@@ -76,7 +76,7 @@ const styles = {
   },
   separator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: 'rgb(230,230,230)',
+    backgroundColor: Colors.separatorColor,
     flex: 1,
   },
   avatar: {

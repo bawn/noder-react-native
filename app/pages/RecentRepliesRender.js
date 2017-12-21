@@ -13,12 +13,14 @@ import {
 import * as Colors from '../other/Colors'
 import Api from '../util/Api'
 import moment from 'moment'
+import Empty from '../component/EmptyRender'
 
 export default class RecentRepliesRender extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: [],
+      viewHeight: 0,
   	}
   }
   static navigatorStyle = {
@@ -30,25 +32,41 @@ export default class RecentRepliesRender extends Component {
       dataSource: this.props.data,
     });
   }
+
+  _onLayout(event){
+    this.setState({
+      viewHeight: event.nativeEvent.layout.height
+    })
+  }
+
   render(){
-      if (this.state.dataSource.length) {
-        return(
+      return(
+        <View
+          style={styles.container}
+          onLayout={(event) => this._onLayout(event)}
+        >
           <FlatList
             initialListSize={10}
             data={this.state.dataSource}
             renderItem={({item, index}) => this.renderRow(item, index)}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={() => this.renderSeparator()}
+            ListEmptyComponent={() => this._emptyComponent()}
             style={styles.listView}
           />
-        )
-      }
-      else {
-        return(
-          <View/>
-        )
-      }
+        </View>
+      )
   }
+
+  _emptyComponent() {
+    return (
+      <Empty
+        height={this.state.viewHeight}
+        >
+      </Empty>
+    )
+  }
+
   _rowAction(item){
     this.props.navigator.push({
       screen: 'Noder.DetailRender',
@@ -84,6 +102,9 @@ export default class RecentRepliesRender extends Component {
 
 
 const styles = {
+  container: {
+    flex: 1
+  },
   listView: {
     flex: 1,
     backgroundColor: Colors.placeholderColor
