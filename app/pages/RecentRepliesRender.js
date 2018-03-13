@@ -1,3 +1,6 @@
+
+// 最近回复
+
 import React, {Component} from 'react';
 import {
   Text,
@@ -96,7 +99,7 @@ export default class RecentRepliesRender extends Component {
     )
   }
   _relative(item){
-    return moment(item.create_at).fromNow()
+    return moment(item.last_reply_at).fromNow()
   }
 }
 
@@ -112,10 +115,10 @@ const styles = {
   cellContent: {
     flex: 1,
     height: 74,
+    padding: 16,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    padding: 16,
     backgroundColor: 'white'
   },
   avatar: {
@@ -131,13 +134,14 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: 50
+    height: 50,
+    flex: 1
   },
   title: {
     fontSize: 14,
     fontWeight: '500',
     color: Colors.blackColor,
-    flexShrink: 1
+    // flexShrink: 1
   },
   create: {
     fontSize: 10,

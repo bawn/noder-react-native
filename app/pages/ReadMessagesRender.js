@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+
+// 已读消息
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -25,20 +27,19 @@ export default class ReadMessagesRender extends Component {
       dataSource: [],
       viewHeight: 0,
       visible: true
-  	}
+    }
   }
   static navigatorStyle = {
     navBarBackgroundColor: 'white',
     tabBarHidden: true
   }
 
-  componentDidMount(){
-    Store.get('user').then((res) =>
-        {this._updateData(res.accessToken)}
+  componentDidMount() {
+    Store.get('user').then((res) => { this._updateData(res.accessToken) }
     )
   }
 
-  _onLayout(event){
+  _onLayout(event) {
     this.setState({
       viewHeight: event.nativeEvent.layout.height
     })
@@ -49,7 +50,7 @@ export default class ReadMessagesRender extends Component {
       <Empty
         hidden={this.state.visible}
         height={this.state.viewHeight}
-        >
+      >
       </Empty>
     )
   }
@@ -65,40 +66,40 @@ export default class ReadMessagesRender extends Component {
           });
         }
       })
-    .done();
+      .done();
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <View style={styles.container}
         onLayout={(event) => this._onLayout(event)}
-        >
+      >
         <FlatList
           data={this.state.dataSource}
-          renderItem={({item, index}) => this.renderRow(item, index)}
+          renderItem={({ item, index }) => this.renderRow(item, index)}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={() => this.renderSeparator()}
           ListEmptyComponent={() => this._emptyComponent()}
           style={styles.listView}
         />
-        <Loading visible={this.state.visible}/>
+        <Loading visible={this.state.visible} />
       </View>
     )
   }
-  _rowAction(item){
+  _rowAction(item) {
     this.props.navigator.push({
       screen: 'Noder.DetailRender',
       title: '帖子详情',
       backButtonTitle: ' ',
-      passProps: {data: item.topic},
+      passProps: { data: item.topic },
     })
   }
-  renderRow(item, index){
+  renderRow(item, index) {
     var row = index + 1;
-    return(
-      <TouchableHighlight style={{flex:1}} onPress={()=>this._rowAction(item)}>
+    return (
+      <TouchableHighlight style={{ flex: 1 }} onPress={() => this._rowAction(item)}>
         <View style={styles.cellContent}>
-          <Image source={{uri: item.author.avatar_url}} style={styles.avatar}/>
+          <Image source={{ uri: item.author.avatar_url }} style={styles.avatar} />
           <View style={styles.textContent}>
             <View style={styles.nicknameView}>
               <Text style={styles.nickname} numberOfLines={1}>
@@ -113,34 +114,34 @@ export default class ReadMessagesRender extends Component {
               {/* Markdown 会导致一个 waring*/}
               <Markdown
                 styles={markdownStyles}
-                >
+              >
                 {item.reply.content}
               </Markdown>
             </View>
           </View>
-          <View style={styles.line}/>
+          <View style={styles.line} />
         </View>
       </TouchableHighlight>
     )
   }
 
-  renderSeparator(){
-    return(
-      <View style={styles.separator}/>
+  renderSeparator() {
+    return (
+      <View style={styles.separator} />
     )
   }
-  _relative(item){
+  _relative(item) {
     return moment(item.create_at).fromNow()
   }
 
-  _onLinkPress(url){
+  _onLinkPress(url) {
     if (url.startsWith('/user/')) {
       let loginname = url.substr(url.lastIndexOf('/') + 1);
       this.props.navigator.push({
         screen: 'Noder.UserProfileRender',
         title: '',
         backButtonTitle: ' ',
-        passProps: {loginname: loginname}
+        passProps: { loginname: loginname }
       })
     }
     else {

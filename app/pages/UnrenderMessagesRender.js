@@ -6,7 +6,8 @@ import {
   FlatList,
   StyleSheet,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  ActionSheetIOS
 } from 'react-native';
 
 import * as Colors from '../other/Colors'
@@ -18,9 +19,21 @@ import Markdown from 'react-native-simple-markdown'
 import Loading from '../component/LoadingRender'
 import Empty from '../component/EmptyRender'
 
+let BUTTONS = [
+  {
+    key: 'confirm',
+    value: '确定',
+  },
+  {
+    key: 'cancel',
+    value: '取消',
+  }
+]
+
 export default class UnrenderMessagesRender extends Component {
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.state = {
       dataSource: [],
       viewHeight: 0,
@@ -29,16 +42,45 @@ export default class UnrenderMessagesRender extends Component {
   }
   static navigatorStyle = {
     navBarBackgroundColor: 'white',
-    tabBarHidden: true,
-    navBarButtonFontSize: 14
+    tabBarHidden: true
   }
 
   static navigatorButtons = {
     rightButtons: [{
         title: '全部已读',
-        id: 'allread'
+        id: 'allread',
+        buttonColor: Colors.blueColor,
+        buttonFontSize: 15,
       }]
-  };
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type == 'NavBarButtonPress') {
+      if (event.id == 'allread') {
+        this._readAction()
+      }
+    }
+  }
+
+  _readAction() {
+    if (this.state.dataSource.length == 0) {
+      return
+    }
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: "是否标记为全部已读",
+      options: BUTTONS.map((item) => {return item.value}),
+      cancelButtonIndex: 1
+    },
+    (buttonIndex) => {
+      if (buttonIndex == 0) {
+        this.setState({
+          
+        })
+      }
+    })
+    
+  }
 
   componentDidMount(){
     Store.get('user').then((res) =>

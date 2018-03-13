@@ -3418,9 +3418,9 @@ react-native-htmlview@^0.12.1:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"
 
-react-native-navigation@^1.1.246:
-  version "1.1.246"
-  resolved "http://registry.npm.taobao.org/react-native-navigation/download/react-native-navigation-1.1.246.tgz#c51d3379c38716a96d083ea4f96c4d49ae81a9aa"
+react-native-navigation@^1.1.322:
+  version "1.1.322"
+  resolved "http://registry.npm.taobao.org/react-native-navigation/download/react-native-navigation-1.1.322.tgz#037b31bb980f72ee437b99250dd97da404704897"
   dependencies:
     lodash "4.x.x"
 

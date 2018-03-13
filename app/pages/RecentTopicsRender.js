@@ -97,7 +97,7 @@ export default class RecentTopicsRender extends Component {
     )
   }
   _relative(item){
-    return moment(item.create_at).fromNow()
+    return moment(item.last_reply_at).fromNow()
   }
 }
 
