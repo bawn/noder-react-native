@@ -7,7 +7,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   requireNativeComponent,
-  Linking
+  Linking,
+  TextInput,
+  TouchableHighlight
 } from 'react-native';
 
 import {Navigation} from 'react-native-navigation'
@@ -17,6 +19,7 @@ import moment from 'moment'
 import HTMLView from 'react-native-htmlview'
 import Loading from '../component/LoadingRender'
 import Empty from '../component/EmptyRender'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 export default class DetailRender extends Component {
   constructor(props) {
@@ -50,18 +53,24 @@ export default class DetailRender extends Component {
           renderItem={({item, index}) => this.renderRow(item, index)}
           keyExtractor={item => item.id}
           ListEmptyComponent={() => this._emptyComponent()}
+          ItemSeparatorComponent={() => this.renderSeparator()}
           style={styles.listView}
+          keyboardDismissMode={"on-drag"}
         />
+        <View style={styles.commentView}>
+          <TextInput placeholder={"填写评论…"} style={styles.commentText}/>
+          <TouchableHighlight style={styles.publishButton}>
+            <Text style={styles.publishText}>{"发布"}</Text>
+          </TouchableHighlight>
+        </View>
+        <KeyboardSpacer/>
       </View>
     )
   }
 
   _emptyComponent() {
     return (
-      <Empty
-        height={this.state.viewHeight}
-        >
-      </Empty>
+      <Empty height={this.state.viewHeight}/>
     )
   }
 
@@ -95,6 +104,14 @@ export default class DetailRender extends Component {
     )
   }
 
+  _likeImage(item) {
+    if(item.is_uped) {
+      return <Image source={require('../assets/images/likeSelected.png')}></Image>
+    } else {
+      return <Image source={require('../assets/images/likeNormal.png')}></Image>
+    }
+  }
+
   renderRow(item, index){
     var row = index + 1;
     return(
@@ -103,27 +120,30 @@ export default class DetailRender extends Component {
           <Image source={{uri: item.author.avatar_url}} style={styles.avatar}/>
         </TouchableOpacity>
         <View style={styles.cellOtherView}>
-          <View style={styles.nameView}>
-            <Text style={styles.nameText}>{item.author.loginname}</Text>
-            <Text style={styles.indexText}>{row + '楼'}</Text>
-          </View>
+          <Text style={styles.nameText}>{item.author.loginname}</Text>
           <HTMLView
             value={item.content}
             style={styles.htmlView}
             stylesheet={htmlStyles}
             onLinkPress={(url) => this._onLinkPress(url)}
           />
-          <Text style={styles.relativeText}>{this._relative(item)}</Text>
+          <View style={styles.bottomView}>
+            <Text style={styles.relativeText}>{this._relative(item)}</Text>
+            <View style={styles.bottomRightView}>
+              <Text style={styles.upText}>{item.ups.length == 0 ? "" : item.ups.length}</Text>
+              <TouchableOpacity onPress={() => this._avatarPress(item)} style={{marginRight: 16}}>
+                {this._likeImage(item)}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this._avatarPress(item)}>
+                <Image source={require('../assets/images/message.png')}></Image>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     )
   }
 
-  renderSeparator(){
-    return(
-      <View style={styles.separator}/>
-    )
-  }
   _relative(item){
     return moment(item.create_at).fromNow()
   }
@@ -152,6 +172,7 @@ const styles = {
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: Colors.separatorColor,
+    marginLeft: 16
   },
   htmlView: {
     flex: 1,
@@ -181,22 +202,57 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'stretch',
   },
-  nameView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
   nameText: {
     fontSize: 12,
     color: Colors.grayColor,
+    marginBottom: 8
   },
-  indexText: {
-    fontSize: 12,
-    color: Colors.blackColor,
+  bottomView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   relativeText: {
     fontSize: 10,
     color: Colors.grayColor
+  },
+  bottomRightView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  upText: {
+    fontSize: 12,
+    color: Colors.grayColor,
+    marginRight: 4,
+    marginTop: 2
+  },
+  commentView: {
+    height: 58,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingLeft: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.borderColor
+  },
+  commentText: {
+    flex: 1,
+    fontSize: 12,
+    color: Colors.blackColor,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: Colors.placeholderColor,
+    paddingLeft: 14
+  },
+  publishButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 54
+  },
+  publishText: {
+    fontSize: 14,
+    color: Colors.blackColor
   }
 }
