@@ -13,7 +13,7 @@
 ## 技术
 原生第三方库
 1. [HTMLKit](https://github.com/iabudiab/HTMLKit) HTML 的解析
-2. [AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit) 渲染图文混排的页面（HtmlRender）
+2. [AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit) 解析 DOM 后使用 AsyncDisplayKit 控件渲染
 
 react-native 第三方库
 1. [react-native-navigation](https://github.com/wix/react-native-navigation) 用于页面管理和跳转
